@@ -12,3 +12,6 @@
 # 注意事项：
 * 修改main.ts代码后，需要清理掉之前的dist然后再重新启动后台
 
+**严重：请使用lf提交**
+> git config --global core.autocrlf input
+
