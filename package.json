@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "author": "",
   "scripts": {
-    "qsmy:start": "pnpm i && npm run migrate && npm start",
+    "server": "pnpm i && npm run migrate && npm start",
     "migrate": "npx prisma migrate dev --name init",
     "generate": "npx --no-install prisma generate",
     "dev": "nest start --watch",

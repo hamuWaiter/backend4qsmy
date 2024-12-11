@@ -5,6 +5,7 @@ import { AppModule } from './app.module'
 import * as os from 'os'
 import process from 'process';
 
+const port = 3000;
 const globalPrefix = 'api';
 
 async function createApp() {
@@ -38,12 +39,12 @@ async function bootstrap() {
   // const apiConfig = configService.get('api');
   // const nestConfig = configService.get('nest');
   // await app.listen(nestConfig.port, '0.0.0.0');
-  await app.listen('3000', '0.0.0.0');
+  await app.listen(port, '0.0.0.0');
   const ip = getIPAddress();
   console.log(`
-    start in http://${ip}:3000/${globalPrefix}
-    api-doc in http://${ip}:3000/api-docs
-    api-doc-json in http://${ip}:3000/api-docs-json
+    start in http://${ip}:${port}/${globalPrefix}
+    api-doc in http://${ip}:${port}/api-docs
+    api-doc-json in http://${ip}:${port}/api-docs-json
   `);
 }
 
