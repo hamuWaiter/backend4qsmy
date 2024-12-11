@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // provider = "sqlite"
+  // url      = "file:./dev.db"
+
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Site {
+  id         Int      @id @default(autoincrement())
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt
+  isDelete   Boolean  @default(false)
+  url        String   @unique
+  title      String
+}
+
+model Blog {
+  id         Int      @id @default(autoincrement())
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt
+  isDelete   Boolean  @default(false)
+  url        String   @unique
+  title      String
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  posts Post[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  viewCount Int      @default(0)
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  Int?
+}
+
+// 文件模型定义
+model File {
+  id        Int      @id @default(autoincrement())
+  name      String
+  path      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
