@@ -7,12 +7,22 @@ import * as http from 'http';
 export class BlogService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  // 查询博客列表
   async getItems(page = 1, pageSize = 10): Promise<Blog[]> {
     const skip = (page - 1) * pageSize;
 
     return this.prismaService.blog.findMany({
       orderBy: { updateTime: "desc" },
+      take: pageSize,
+      skip,
+    });
+  }
+
+  async getShowItems(page = 1, pageSize = 10): Promise<Blog[]> {
+    const skip = (page - 1) * pageSize;
+
+    return this.prismaService.blog.findMany({
+      orderBy: { updateTime: "desc" },
+      where: { isDelete: false },
       take: pageSize,
       skip,
     });

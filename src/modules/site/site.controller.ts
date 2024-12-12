@@ -7,40 +7,30 @@ import {
   Put,
   Delete,
   Query,
-} from '@nestjs/common'
-import { PrismaService } from '../../prisma/prisma.service';
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Site } from '@prisma/client';
+import { PaginationDto } from '../../types';
+import { PrismaService } from '../../prisma/prisma.service';
+import { SiteService } from './site.service';
 
 // api-doc文档用
 @ApiTags('site')
 // 路径前缀
 @Controller()
 export class SiteController {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService, private readonly siteService: SiteService) {}
 
-  // 已启用的记录
-  @Get('sitesForShow')
-  async getAvailableSites(page = 1, pageSize = 10): Promise<Site[]> {
-    const skip = (page - 1) * pageSize;
-
-    return this.prismaService.site.findMany({
-      // orderBy: { updateTime: "desc" },
-      where: { isDelete: false },
-      take: pageSize,
-      skip,
-    });
+  // 全量
+  @Get('sites')
+  async getSites(@Query() query: PaginationDto): Promise<Site[]> {
+    return this.siteService.getItems(Number(query.page), Number(query.pageSize));
   }
 
-  @Get('sites')
-  async getSites(page = 1, pageSize = 10): Promise<Site[]> {
-    const skip = (page - 1) * pageSize;
-
-    return this.prismaService.site.findMany({
-      // orderBy: { updateTime: "desc" },
-      take: pageSize,
-      skip,
-    });
+  // 已启用的记录
+  @Get('sites4Show')
+  async getShowSites(@Query() query: PaginationDto): Promise<Site[]> {
+    return this.siteService.getShowItems(Number(query.page), Number(query.pageSize));
   }
 
   // 根据id查询记录

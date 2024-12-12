@@ -7,10 +7,11 @@ import {
   Put,
   Delete,
   Query,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BlogService } from './blog.service';
 import { Blog } from '@prisma/client';
+import { PaginationDto } from '../../types';
 
 // api-doc文档用
 @ApiTags('blog')
@@ -19,10 +20,16 @@ import { Blog } from '@prisma/client';
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
-  // 获取博客列表
+  // 获取博客列表（全量）
   @Get('')
-  async getItems(page = 1, pageSize = 10): Promise<Blog[]> {
-    return this.blogService.getItems(page, pageSize);
+  async getItems(@Query() query: PaginationDto): Promise<Blog[]> {
+    return this.blogService.getItems(Number(query.page), Number(query.pageSize));
+  }
+
+  // 获取展示给前端的博客列表
+  @Get('/blog4show')
+  async getShowItems(@Query() query: PaginationDto): Promise<Blog[]> {
+    return this.blogService.getShowItems(Number(query.page), Number(query.pageSize));
   }
 
   // 根据id查询记录

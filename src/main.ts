@@ -2,8 +2,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import * as os from 'os'
-import process from 'process';
+import * as os from 'os';
 
 const port = 3000;
 const globalPrefix = 'api';
