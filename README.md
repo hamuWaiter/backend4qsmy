@@ -12,6 +12,13 @@
 # 注意事项：
 * 修改main.ts代码后，需要清理掉之前的dist然后再重新启动后台
 
-**严重：请使用lf提交**
-> git config --global core.autocrlf input
+# windows下开发配置
+jetbrains 设置 编辑器-代码样式-行分割符 修改为 unix 和 macOS /n
+
+关闭lf crlf 自动转换
+> git config --global core.autocrlf false
+
+拒绝提交包含混合换行符的文件
+> git config --global core.safecrlf true
+
 

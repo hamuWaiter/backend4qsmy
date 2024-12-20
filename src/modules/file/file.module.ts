@@ -4,12 +4,22 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import * as path from 'path';
+import { mkdirSync, existsSync } from 'fs';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
 
 const storage = diskStorage({
-  destination: './uploads',
+  // destination: './uploads',
+  destination: (req, file, cb) => {
+    const ext = extname(file.originalname);
+    const uploadDir = './uploads/' + ext.substring(1);
+
+    // 如果没有则创建
+    if (!existsSync(uploadDir)) {
+      mkdirSync(uploadDir);
+    }
+    cb(null, uploadDir);
+  },
   filename: (req, file, cb) => {
     // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     // const ext = extname(file.originalname);
